@@ -1,9 +1,9 @@
 from typing import Literal
 
-from pydantic_settings import BaseSettigs, SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Settings(BaseSettigs):
+class Settings(BaseSettings):
     MODE: Literal["TEST", "LOCAL", "DEV", "PROD"]
 
     APP_HOST: str
@@ -26,6 +26,7 @@ class Settings(BaseSettigs):
     def DB_URL(self):
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.POSTGRES_DB}"
 
+    HASH_SALT: str
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int

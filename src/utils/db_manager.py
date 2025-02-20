@@ -1,4 +1,4 @@
-from src.repository import UsersRepository
+from src.repository import UsersRepo
 
 
 class DBManager:
@@ -8,12 +8,12 @@ class DBManager:
     async def __aenter__(self):
         self.session = self.sessionmaker()
 
-        self.users = UsersRepository(self.session)
+        self.users = UsersRepo(self.session)
 
         return self
 
 
-    async def __aexit__(self):
+    async def __aexit__(self, *args):
         await self.session.rollback()
         await self.session.close()
 
