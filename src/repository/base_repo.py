@@ -54,7 +54,7 @@ class BaseRepo:
 
     async def edit(self, data: Sequence[BaseModel], **filter_by):
         try:
-            stmt = update(self.model).filter_by(**filter_by).values(**data.model_dump(exclude_unset=True))
+            stmt = update(self.model).filter_by(**filter_by).values(**data.model_dump(exclude_unset=True)) # возврат значения при edit с помощью returning
             await self.session.execute(stmt)
         except IntegrityError as e:
             raise e

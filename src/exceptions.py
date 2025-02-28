@@ -47,3 +47,7 @@ class IncorrectPasswordHTTPException(BaseHTTPException):
 class NoAccessTokenHTTPException(BaseHTTPException):
     status_code = 401
     detail = "access token not provided"
+
+class UnauthorizedHTTPException(BaseHTTPException):
+    status_code = 401
+    detail = "you don't have enough permissions"

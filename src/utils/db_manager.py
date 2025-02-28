@@ -1,4 +1,4 @@
-from src.repository import UsersRepo
+from src.repository import UsersRepo, ReportsRepo, RolesRepo
 
 
 class DBManager:
@@ -9,6 +9,8 @@ class DBManager:
         self.session = self.sessionmaker()
 
         self.users = UsersRepo(self.session)
+        self.reports = ReportsRepo(self.session)
+        self.roles = RolesRepo(self.session)
 
         return self
 

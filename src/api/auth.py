@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, Depends
 
-from src.schemas import UserRequestAdd, UserAdd
+from src.schemas import UserRequestAdd, UserWithRoleRequestAdd, UserAdd, User
 from src.services.auth import AuthService
 from src.api.dependencies import DBDep, UserIdDep
 from src.exceptions import UserEmailAlreadyExistsHTTPException, IncorrectPasswordHTTPException
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/auth", tags=["Authorization and authentication", ])
 
 @router.post("/register")
 async def register_user(
-    data: UserRequestAdd,
+    data: UserWithRoleRequestAdd,
     db: DBDep
 ):
     try:
@@ -51,5 +51,6 @@ async def logout_user(
 async def get_me(
     user_id: UserIdDep,
     db: DBDep
-):
-    return await AuthService(db).get_one_or_none_user(user_id)
+): #-> User: нужно для отфильтровывания hashed_password, на каком уровне необходимо фильтровать - в endpoints или на сервисном уровне?
+    res = await AuthService(db).get_one_or_none_user(user_id)
+    return res # как исключить поле hashed_password
